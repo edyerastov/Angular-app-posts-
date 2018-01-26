@@ -1,0 +1,63 @@
+<div class="container">
+  <form class="mt-3 mb-5" novalidate #form="ngForm" (ngSubmit)="addPost(form)">
+
+    <div
+      class="alert alert-danger"
+      *ngIf="postTitle.errors?.required && postTitle.touched"
+    >
+      Enter the title
+    </div>
+
+    <div
+      class="alert alert-success"
+      *ngIf="addSuccess"
+    >
+      Post add success
+    </div>
+
+    <div
+      class="alert alert-danger"
+      *ngIf="addError"
+    >
+      Post not add
+    </div>
+
+    <div
+      class="alert alert-success"
+      *ngIf="addEdit"
+    >
+      Post edited
+    </div>
+
+    <div
+      class="alert alert-success"
+      *ngIf="addRemove"
+    >
+      Post deleted
+    </div>
+
+    <div class="form-group">
+      <label>Add new post</label>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="post.title"
+        name="title"
+        #postTitle="ngModel"
+        required
+      >
+    </div>
+    <button [disabled]="form.invalid" class="btn btn-primary">Add post</button>
+  </form>
+  <div class="user-list flex-container">
+    <div class="card bg-light"
+         *ngFor="let post of posts"
+    >
+      <div class="card-body">
+        <p class="card-text" [class.form-control]="post.editing" [attr.contenteditable]="post.editing">{{ post.title }}</p>
+        <button (click)="editPost(post)" class="btn btn-primary">{{ post.editing ? 'Set' : 'Edit' }}</button>
+        <button (click)="removePost(i)" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
